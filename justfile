@@ -35,7 +35,7 @@ requirements:
     uv pip compile pyproject.toml -o requirements.txt
 
 # Publish the package to PyPi
-publish prj=project pkg="`zptessdao": build
+publish prj=project pkg="zptessdao": build
     twine upload -r pypi dist/*
     uv run --no-project --with {{prj}} --refresh-package {{prj}} \
         -- python -c "from {{pkg}} import __version__; print(__version__)"
