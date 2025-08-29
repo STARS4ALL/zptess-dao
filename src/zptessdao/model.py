@@ -244,7 +244,6 @@ SamplesRounds = Table(
 )
 
 
-
 def make_Round(declarative_base: Type) -> Type:
     class Round(declarative_base):
         __tablename__ = "rounds_t"
@@ -341,9 +340,7 @@ def make_Sample(declarative_base: Type) -> Type:
 
 
 # Create the view for barebones SQL statements from console
-def make_SummaryView(
-    declarative_base: Type, Photometer: Type, Summary: Type
-) -> Type:
+def make_SummaryView(declarative_base: Type, Photometer: Type, Summary: Type) -> Type:
     AliasSummary = aliased(Summary)
 
     summary_view = view(

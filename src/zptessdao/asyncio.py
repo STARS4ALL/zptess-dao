@@ -15,18 +15,17 @@ from typing import Type
 # Third party libraries
 # ---------------------
 
-from sqlalchemy.orm import aliased
 from lica.sqlalchemy.asyncio.model import Model
 
 # -------------------
 # Own package imports
 # -------------------
+
 from .model import (
     make_Config,
     make_Batch,
     make_Photometer,
     make_Summary,
- 
     make_Round,
     make_Sample,
     make_SummaryView,
@@ -52,7 +51,6 @@ __all__ = [
     "Batch",
     "Photometer",
     "Summary",
-    "SamplesRounds",
     "Round",
     "Sample",
     "SummaryView",
