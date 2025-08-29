@@ -63,37 +63,44 @@ anew date="20250121" folder="migra" verbose="": (db-anew date)
     #!/usr/bin/env bash
     set -exuo pipefail
     uv sync --reinstall
-    #uv run zp-db-fix-src
+    # I don't remember how I called this step
+    uv run zp-db-fix --console  rounds --zp-fict --dry-run
+    uv run zp-db-fix --console  rounds --stddev --dry-run
     test -d {{ folder }} || mkdir {{ folder }}
-    uv run zp-db-schema --console --log-file zptool.log {{ verbose }}
-    #uv run zp-db-extract --console --log-file zptool.log {{ verbose }} all --output-dir {{ folder }}
+    uv run zp-db-schema --console  {{ verbose }}
+    uv run zp-db-extract --console  {{ verbose }} all --output-dir {{ folder }}
 
 # Starts a new database import migration cycle   
 aload stage="summary" folder="migra":
     #!/usr/bin/env bash
     set -exuo pipefail
     test -d {{ folder }} || mkdir {{folder}}
-    uv run zp-db-loader --console config --input-dir {{folder}}
-    uv run zp-db-loader --console batch --input-dir {{folder}}
+    uv run zp-db-loader --console  config --input-dir {{folder}}
+    uv run zp-db-loader --console  batch --input-dir {{folder}}
     if [ "{{stage}}" == "photometer" ]; then
-        uv run zp-db-loader --console photometer --input-dir {{folder}}
+        uv run zp-db-loader --console  photometer --input-dir {{folder}}
     elif [ "{{stage}}" == "summary" ]; then
-        uv run zp-db-loader --console photometer --input-dir {{folder}}
-        uv run zp-db-loader --console summary --input-dir {{folder}}
+        uv run zp-db-loader --console  photometer --input-dir {{folder}}
+        uv run zp-db-loader --console  summary --input-dir {{folder}}
     elif [ "{{stage}}" == "rounds" ]; then
-        uv run zp-db-loader --console photometer --input-dir {{folder}}
-        uv run zp-db-loader --console summary --input-dir {{folder}}
-        uv run zp-db-loader --console rounds --input-dir {{folder}}
+        uv run zp-db-loader --console  photometer --input-dir {{folder}}
+        uv run zp-db-loader --console  summary --input-dir {{folder}}
+        uv run zp-db-loader --console  rounds --input-dir {{folder}}
     elif [ "{{stage}}" == "samples" ]; then
-        uv run zp-db-loader --console photometer --input-dir {{folder}}
-        uv run zp-db-loader --console summary --input-dir {{folder}}
-        uv run zp-db-loader --console rounds --input-dir {{folder}}
-        uv run zp-db-loader --console samples --input-dir {{folder}}
+        uv run zp-db-loader --console  photometer --input-dir {{folder}}
+        uv run zp-db-loader --console  summary --input-dir {{folder}}
+        uv run zp-db-loader --console  rounds --input-dir {{folder}}
+        uv run zp-db-loader --console  samples --input-dir {{folder}}
     else
         echo "No known stage"
         exit 1
     fi
 
+qa stage="summary" folder="migra":
+    #!/usr/bin/env bash
+    set -exuo pipefail
+    uv run zp-db-qa --console  all
+   
 
 # =======================================================================
 
