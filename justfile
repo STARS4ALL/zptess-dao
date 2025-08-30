@@ -141,4 +141,3 @@ env-restore bak_dir:
         exit 1 
     fi
     cp {{ bak_dir }}/.env {{ local_env }}
-    
